@@ -8,7 +8,7 @@ app.use(cors());
 app.set('port', process.env.PORT || 3001);
 
 
-//GET request: returns all data
+//Mock data
 app.locals.reviews = [
   {username:'JeffShepherd', summary: 'this is a summary', email:'nazosnowboarder@yahoo.com', language:'Python', date:'02/24/21', repo: 'https://github.com/JeffShepherd/Rancid-Tomatillos', status:'active', reviewer: 'Jackson', id:420 },
   {username:'jacksonmcguire', summary: 'this is a summary', email:'lumbersexual@gmail.com', language:'JavaScript', date:'02/24/21', repo: 'https://github.com/Jacksonmcguire/intention-timer', status:'', reviewer: '',id:69},
@@ -21,7 +21,7 @@ app.locals.reviews = [
 ];
 
 
-
+//GET request: returns all data
 app.get('/reviews', (request, response) => {
   const reviews = app.locals.reviews;
 
@@ -35,7 +35,32 @@ app.get('/reviews', (request, response) => {
 
 
 
-//PUT request: updates reviewer, status
+//PUT request:  CANCEL button (status to empty string and reviewer to empty string)
+app.put('/reviews/update/:id', (request, response) => {
+  
+  //pull out relevant id and property to update from body
+  const { id } = request.params;
+
+  //iterate through dataset and update properties for relevant id
+  app.locals.reviews.forEach((review) => {
+    if(parseInt(id) === review.id) {
+      review.status = '';
+      review.reviewer = '';
+    }
+  })
+
+  //return full dataset
+  response.status(200).json(app.locals.reviews)
+})
+
+//PUT requests outstanding (updates reviewer, status to active)
+
+
+
+
+
+
+
 
 
 
