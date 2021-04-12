@@ -35,7 +35,7 @@ app.get('/reviews', (request, response) => {
 
 
 
-//PUT request:  CANCEL button (status to empty string and reviewer to empty string)
+//PUT request:  CANCEL button
 app.put('/reviews/cancel/:id', (request, response) => {
   //pull out relevant id and property to update from body
   const { id } = request.params;
@@ -50,7 +50,7 @@ app.put('/reviews/cancel/:id', (request, response) => {
   response.status(200).json(app.locals.reviews)
 })
 
-//PUT request:  UNDO button (status to empty string and reviewer to empty string)
+//PUT request:  UNDO button
 app.put('/reviews/undo/:id', (request, response) => {
   //pull out relevant id and property to update from body
   const { id } = request.params;
@@ -63,6 +63,25 @@ app.put('/reviews/undo/:id', (request, response) => {
   //return full dataset
   response.status(200).json(app.locals.reviews)
 })
+
+//PUT request:  Complete button
+app.put('/reviews/complete/:id', (request, response) => {
+  //pull out relevant id and property to update from body
+  const { id } = request.params;
+  //iterate through dataset and update properties for relevant id
+  app.locals.reviews.forEach((review) => {
+    if(parseInt(id) === review.id) {
+      review.status = 'complete';
+    }
+  })
+  //return full dataset
+  response.status(200).json(app.locals.reviews)
+})
+
+
+
+
+
 
 //PUT requests outstanding (complete, accept)
 
