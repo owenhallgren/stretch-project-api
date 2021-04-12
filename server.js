@@ -33,62 +33,63 @@ app.get('/reviews', (request, response) => {
 })
 
 
-
-
 //PUT request:  CANCEL button
 app.put('/reviews/cancel/:id', (request, response) => {
-  //pull out relevant id and property to update from body
   const { id } = request.params;
-  //iterate through dataset and update properties for relevant id
+
   app.locals.reviews.forEach((review) => {
     if(parseInt(id) === review.id) {
       review.status = '';
       review.reviewer = '';
     }
   })
-  //return full dataset
+
   response.status(200).json(app.locals.reviews)
 })
 
 //PUT request:  UNDO button
 app.put('/reviews/undo/:id', (request, response) => {
-  //pull out relevant id and property to update from body
+
   const { id } = request.params;
-  //iterate through dataset and update properties for relevant id
+
   app.locals.reviews.forEach((review) => {
     if(parseInt(id) === review.id) {
       review.status = 'active';
     }
   })
-  //return full dataset
+
   response.status(200).json(app.locals.reviews)
 })
 
 //PUT request:  Complete button
 app.put('/reviews/complete/:id', (request, response) => {
-  //pull out relevant id and property to update from body
+
   const { id } = request.params;
-  //iterate through dataset and update properties for relevant id
+
   app.locals.reviews.forEach((review) => {
     if(parseInt(id) === review.id) {
       review.status = 'complete';
     }
   })
-  //return full dataset
+
   response.status(200).json(app.locals.reviews)
 })
 
 
+//PUT request:  ACCEPT button
+app.put('/reviews/accept/:id/:user', (request, response) => {
 
+  const { id, user } = request.params;
 
+  app.locals.reviews.forEach((review) => {
+    if(parseInt(id) === review.id) {
+      review.status = 'active';
+      review.reviewer = `${user}`;
+    }
+  })
 
-
-//PUT requests outstanding (complete, accept)
-
-
-
-
-
+  response.status(200).json(app.locals.reviews)
+})
 
 
 app.listen(app.get('port'), () => {
